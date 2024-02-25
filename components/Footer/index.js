@@ -11,7 +11,7 @@ const Footer = ({}) => {
           <h1 className="text-2xl text-bold">Contact.</h1>
           <div className="mt-10">
             <h1 className="text-3xl tablet:text-6xl laptop:text-6xl laptopl:text-8xl text-bold">
-              LET&apos;S WORK
+              LET&apos;S <span className="red-glow">W</span>ORK
             </h1>
             <h1 className="text-3xl tablet:text-6xl laptop:text-6xl laptopl:text-8xl text-bold">
               TOGETHER
@@ -29,6 +29,13 @@ const Footer = ({}) => {
           <a className="underline underline-offset-1">Abhishek Gharat</a>
         </Link>
       </h1>
+
+      <style jsx>{`
+        .red-glow {
+          color: red;
+          text-shadow: 0 0 8px red, 0 0 16px red; /* Adjust the shadow properties for the glow effect */
+        }
+      `}</style>
     </>
   );
 };

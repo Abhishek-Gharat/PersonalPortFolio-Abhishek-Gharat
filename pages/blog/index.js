@@ -6,6 +6,8 @@ import Button from "../../components/Button";
 import Cursor from "../../components/Cursor";
 import Header from "../../components/Header";
 import data from "../../data/portfolio.json";
+import { motion } from "framer-motion";
+
 import { ISOToDate, useIsomorphicLayoutEffect } from "../../utils";
 import { getAllPosts } from "../../utils/api";
 const Blog = ({ posts }) => {
@@ -76,7 +78,7 @@ const Blog = ({ posts }) => {
           <div className="mt-10">
             <h1
               ref={text}
-              className="mx-auto mob:p-2 text-bold text-6xl laptop:text-8xl w-full"
+              className="mx-auto mob:p-7 text-bold text-6xl laptop:text-8xl w-full"
             >
               Blog.
             </h1>
@@ -88,11 +90,19 @@ const Blog = ({ posts }) => {
                     key={post.slug}
                     onClick={() => Router.push(`/blog/${post.slug}`)}
                   >
-                    <img
-                      className="w-full h-60 rounded-lg shadow-lg object-cover"
-                      src={post.image}
-                      alt={post.title}
-                    ></img>
+             <motion.img
+  className="w-full h-60 rounded-lg shadow-lg object-cover"
+  src={post.image}
+  alt={post.title}
+  initial={{ opacity: 0, x: 700 }}
+  animate={{ opacity: 1, x: 0 }}
+  transition={{ duration: 1, ease: "anticipate" }}
+  whileHover={{ scale: 1.08, rotate: [0, 0, 1], filter: `drop-shadow(0 0 0.75rem #ff00ff)` }}
+/>
+
+
+
+
                     <h2 className="mt-5 text-4xl">{post.title}</h2>
                     <p className="mt-2 opacity-50 text-lg">{post.preview}</p>
                     <span className="text-sm mt-5 opacity-25">

@@ -104,7 +104,7 @@ const Edit = () => {
         {
           id: uuidv4(),
           title: "New Link",
-          link: "www.chetanverma.com",
+          link: " ",
         },
       ],
     });
@@ -129,7 +129,7 @@ const Edit = () => {
             id: uuidv4(),
             dates: "Enter Dates",
             type: "Full Time",
-            position: "Frontend Engineer at X",
+            position: "Frontend Engineer ",
             bullets: ["Worked on the frontend of a React application"],
           },
         ],

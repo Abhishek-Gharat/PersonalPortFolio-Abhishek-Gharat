@@ -1,4 +1,7 @@
-import { useRef } from "react";
+import React, { useRef } from "react";
+import { useTheme } from "next-themes";
+import { motion } from "framer-motion";
+import Link from "next/link";
 import Header from "../components/Header";
 import ServiceCard from "../components/ServiceCard";
 import Socials from "../components/Socials";
@@ -7,12 +10,54 @@ import { useIsomorphicLayoutEffect } from "../utils";
 import { stagger } from "../animations";
 import Footer from "../components/Footer";
 import Head from "next/head";
-import Button from "../components/Button";
-import Link from "next/link";
-import Cursor from "../components/Cursor";
-
-// Local Data
 import data from "../data/portfolio.json";
+
+const Button = ({ children, type, onClick, classes }) => {
+  const { theme } = useTheme();
+  if (type === "primary") {
+    return (
+      <motion.button
+        onClick={onClick}
+        type="button"
+        whileHover={{ scale: 1.1 }}
+        transition={{ duration: 0.3 }}
+        className={`text-sm tablet:text-base p-1 laptop:p-2 m-1 laptop:m-2 rounded-lg ${
+          theme === "dark" ? "bg-white text-black" : "bg-black text-white"
+        }  transition-all duration-300 ease-out first:ml-0 active:scale-100 link ${
+          data.showCursor && "cursor-none"
+        }  ${classes}`}
+      >
+        {children}
+      </motion.button>
+    );
+  }
+  return (
+    <motion.button
+      onClick={onClick}
+      type="button"
+      whileHover={{ 
+        scale: 1.1,
+        textShadow: "0 0 8px rgb(58, 208, 255), 0 0 16px rgb(58, 209, 255)", // Neon effect
+        transition: { duration: 0.5 }
+      }}
+      className={`text-sm tablet:text-base p-1 laptop:p-2 m-1 laptop:m-2 rounded-lg flex items-center transition-all ease-out duration-300 ${
+        theme === "dark"
+          ? "hover:bg-slate-0 text-white"
+          : "hover:bg-slate-100"
+      } active:scale-100  tablet:first:ml-0  ${
+        data.showCursor && "cursor-none"
+      } ${classes} link`}
+    >
+      {children}
+    </motion.button>
+  );
+};
+
+// Animation variants
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+};
 
 export default function Home() {
   // Ref
@@ -50,7 +95,6 @@ export default function Home() {
 
   return (
     <div className={`relative ${data.showCursor && "cursor-none"}`}>
-      {data.showCursor && <Cursor />}
       <Head>
         <title>{data.name}</title>
       </Head>
@@ -64,30 +108,50 @@ export default function Home() {
           handleAboutScroll={handleAboutScroll}
         />
         <div className="laptop:mt-20 mt-10">
-          <div className="mt-5">
+          <div className="mt-5 text-center">
+          <motion.img 
+  src="/images/abg.png" 
+  className="mx-auto mb-5 object-cover" // Removed the w-41 h-42 classes
+  style={{ 
+    width: '150px', // Set the width here
+    height: '150px', // Set the height here
+    WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 5%, black 90%, transparent)',
+    maskImage: 'linear-gradient(to bottom, transparent, black 5%, black 90%, transparent)'
+  }}
+  alt="abhishek"
+  initial={{ rotate: 0, scale: 0 }}
+  animate={{ rotate: 0, scale: 1 }}
+  whileHover={{ scale: 1.1 }} // Add this line for a hover effect
+/>
+
+
             <h1
               ref={textOne}
-              className="text-3xl tablet:text-6xl laptop:text-6xl laptopl:text-8xl p-1 tablet:p-2 text-bold w-4/5 mob:w-full laptop:w-4/5"
+              className="text-lg tablet:text-3xl laptop:text-3xl laptopl:text-4xl p-1 tablet:p-2 text-bold w-4/5 mob:w-full laptop:w-4/5 mx-auto"
             >
-              {data.headerTaglineOne}
+              {/* {data.headerTaglineOne} */}
             </h1>
+            <br />
             <h1
               ref={textTwo}
-              className="text-3xl tablet:text-6xl laptop:text-6xl laptopl:text-8xl p-1 tablet:p-2 text-bold w-full laptop:w-4/5"
+              className="text-lg tablet:text-3xl laptop:text-3xl laptopl:text-4xl p-1 tablet:p-2 text-bold w-full laptop:w-4/5 mx-auto"
             >
               {data.headerTaglineTwo}
+              {data.headerTaglineFour}
             </h1>
+            <br />
             <h1
               ref={textThree}
-              className="text-3xl tablet:text-6xl laptop:text-6xl laptopl:text-8xl p-1 tablet:p-2 text-bold w-full laptop:w-4/5"
+              className="text-lg tablet:text-3xl laptop:text-3xl laptopl:text-4xl p-1 tablet:p-2 text-bold w-full laptop:w-4/5 mx-auto"
             >
-              {data.headerTaglineThree}
+              {/* {data.headerTaglineThree} */}
             </h1>
+            <br />
             <h1
               ref={textFour}
-              className="text-3xl tablet:text-6xl laptop:text-6xl laptopl:text-8xl p-1 tablet:p-2 text-bold w-full laptop:w-4/5"
+              className="text-lg tablet:text-3xl laptop:text-3xl laptopl:text-4xl p-1 tablet:p-2 text-bold w-full laptop:w-4/5 mx-auto"
             >
-              {data.headerTaglineFour}
+              {/* {data.headerTaglineFour} */}
             </h1>
           </div>
 
@@ -130,10 +194,37 @@ export default function Home() {
           </div>
         )}
         <div className="mt-10 laptop:mt-40 p-2 laptop:p-0" ref={aboutRef}>
-          <h1 className="tablet:m-10 text-2xl text-bold">About.</h1>
-          <p className="tablet:m-10 mt-2 text-xl laptop:text-3xl w-full laptop:w-3/5">
-            {data.aboutpara}
-          </p>
+          <motion.h1
+            className="tablet:m-10 text-2xl text-bold"
+            variants={fadeIn}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 1 }}
+          >
+            About.
+          </motion.h1>
+          <motion.p
+  className="tablet:m-10 mt-2 text-xl laptop:text-3xl w-full laptop:w-3/5"
+  variants={{
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1, // Adjust the delay between each character
+      },
+    },
+  }}
+  initial="hidden"
+  animate="visible"
+>
+  {data.aboutpara.split("").map((char, index) => (
+    <motion.span key={index} variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}>
+      {char}
+    </motion.span>
+  ))}
+</motion.p>
+
+
         </div>
         <Footer />
       </div>
