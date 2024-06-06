@@ -59,12 +59,12 @@ const BlogPost = ({ post }) => {
         <Footer />
       </div>
       {process.env.NODE_ENV === "development" && (
-        <div className="fixed bottom-6 right-6">
-          <Button onClick={() => setShowEditor(true)} type={"primary"}>
-            Edit this blog
-          </Button>
-        </div>
-      )}
+  <div className="fixed bottom-6 right-6">
+    <Button onClick={() => setShowEditor(true)} type={"primary"}>
+      Edit this blog
+    </Button>
+  </div>
+)}
 
       {showEditor && (
         <BlogEditor
