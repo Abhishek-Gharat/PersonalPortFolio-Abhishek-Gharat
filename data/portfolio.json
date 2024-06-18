@@ -39,10 +39,10 @@
     "projects": [
       {
         "id": "1",
-        "title": "Weather-APP",
-        "description": "Weather",
-        "imageSrc": "https://images.unsplash.com/photo-1487837647815-bbc1f30cd0d2?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8Njl8fHBhc3RlbHxlbnwwfHwwfA%3D%3D&auto=format&fit=crop&w=400&q=60",
-        "url": "https://weather-app-mini-01.netlify.app/"
+        "title": "BOOKING-APP",
+        "description": "RENTING",
+        "imageSrc": "https://dl.dropboxusercontent.com/scl/fi/0v85s3bxrqf6dggj6u5q3/Screenshot-43.png?rlkey=eeq2262e2x6ci0mfx8tlfxypl&st=eoml15sf&dl=0",
+        "url": "https://booking-react-app-one.vercel.app/"
       },
       {
         "id": "2",
