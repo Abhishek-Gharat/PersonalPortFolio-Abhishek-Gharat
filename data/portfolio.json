@@ -40,42 +40,36 @@
       {
         "id": "1",
         "title": "BOOKING-APP",
-        "description": "RENTING",
+        "description": "A responsive booking app with a sleek UI, featuring a dark mode, a favorites list, and multiple other functionalities to enhance the renting experience",
         "imageSrc": "https://dl.dropboxusercontent.com/scl/fi/0v85s3bxrqf6dggj6u5q3/Screenshot-43.png?rlkey=eeq2262e2x6ci0mfx8tlfxypl&st=eoml15sf&dl=0",
         "url": "https://booking-react-app-one.vercel.app/"
       },
       {
         "id": "2",
         "title": " CHAT AI WEB APP",
-        "description": "AI",
+        "description": " An AI-powered chat web app providing intelligent and interactive communication with users",
         "imageSrc": "https://dl.dropboxusercontent.com/scl/fi/s5qbiu021njpx3xffmbmj/Screenshot-2024-06-13-130553.png?rlkey=t03r0y4ye6vkmhfckv3cilb6q&st=i65ov03z&dl=0",
         "url": "https://chat-web-app-7ibf.vercel.app/"
       },
       {
         "id": "3",
         "title": "NOTES APP",
-        "description": "NOTES TAKING",
+        "description": "NOTES TAKING Application",
         "imageSrc": "https://dl.dropboxusercontent.com/scl/fi/g8nlq7395u63wbxy1fc1d/Screenshot-42.png?rlkey=xhbu54z3ai530y4h07wih5fzg&st=zue2kzm4&dl=0",
         "url": "https://note-app-qvjn.vercel.app/"
       },
+    
       {
         "id": "4",
-        "title": "Project Four",
-        "description": "Marketing",
-        "imageSrc": "https://images.unsplash.com/photo-1492171983775-a51717616c0d?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8NjB8fHBhc3RlbHxlbnwwfHwwfA%3D%3D&auto=format&fit=crop&w=400&q=60",
-        "url": ""
-      },
-      {
-        "id": "5",
         "title": "1:1 Meeting APP",
-        "description": "Development",
+        "description": "Utilizing Socket.IO, this project develops a 1:1 Meeting App that enables real-time, interactive meetings between users, ensuring seamless communication and connectivity",
         "imageSrc": "https://i.postimg.cc/MKj8y7MD/Screenshot-45.png",
         "url": "https://1-1-meeting.vercel.app/"
       },
       {
-        "id": "6",
+        "id": "5",
         "title": "NODE BASED COLOR GEN",
-        "description": "Design & Development",
+        "description": "Using the React Flow library, this project changes the background color dynamically when nodes are connected, creating an interactive visual experience",
         "imageSrc": "https://i.postimg.cc/4yv4Qpnn/Screenshot-46.png",
         "url": "https://nodebasecolorgen.vercel.app/"
       }
