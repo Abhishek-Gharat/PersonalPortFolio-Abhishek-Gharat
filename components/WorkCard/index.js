@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 
 const WorkCard = ({ img, name, description, onClick, theme }) => {
-  const glowColor = theme === 'dark' ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.8)';
+  const glowColor = theme === "dark" ? "rgba(255, 255, 255, 0.8)" : "rgba(0, 0, 0, 0.8)";
 
   return (
     <motion.div
@@ -12,23 +12,20 @@ const WorkCard = ({ img, name, description, onClick, theme }) => {
       transition={{ duration: 0.3 }}
     >
       <motion.div
-        className="relative rounded-lg overflow-hidden transition-all ease-out duration-300 h-48 mob:h-auto"
-        style={{ height: "600px" }}
+        className="relative rounded-lg overflow-hidden transition-all ease-out duration-300 h-48 mob:h-64"
+        style={{ height: "400px" }} // Adjusted the height here for mobile
       >
         <motion.img
           alt={name}
-          className="h-full w-full object-cover hover:scale-110 transition-all ease-out duration-300"
+          className="h-full w-full object-cover object-center hover:scale-110 transition-all ease-out duration-300"
           src={img}
-        ></motion.img>
+          style={{ objectFit: "cover" }} // Ensures the image covers the container
+        />
       </motion.div>
-      <motion.h1
-        className="mt-5 text-3xl font-medium"
-      >
+      <motion.h1 className="mt-3 text-2xl font-medium">
         {name ? name : "Project Name"}
       </motion.h1>
-      <motion.h2
-        className="text-xl opacity-50"
-      >
+      <motion.h2 className="text-lg opacity-50">
         {description ? description : "Description"}
       </motion.h2>
     </motion.div>

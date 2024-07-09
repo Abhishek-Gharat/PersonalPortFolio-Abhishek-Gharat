@@ -25,16 +25,13 @@
         "title": "Twitter",
         "link": "https://twitter.com/ABHISHEK09767"
       },
-      {
-        "id": "4",
-        "title": "Blog",
-        "link": " "
-      },
+  
       {
         "id": "5",
         "title": "Email",
-        "link": "gharatabhi53@gmail.com"
+        "link": "mailto:gharatabhi53@gmail.com"
       }
+      
     ],
     "projects": [
       {
