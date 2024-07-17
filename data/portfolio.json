@@ -37,7 +37,7 @@
          {
         "id": "1",
         "title": "NODE FLOW AUTOMATION",
-        "description": "Node Flow Automation is a tool for creating and managing flow diagrams effortlessly. You can draw diagrams intuitively and seamlessly navigate between nodes. Easily download your diagrams as images or upload JSON files to create diagrams instantly."
+        "description": "Node Flow Automation is a tool for creating and managing flow diagrams effortlessly. You can draw diagrams intuitively and seamlessly navigate between nodes. Easily download your diagrams as images or upload JSON files to create diagrams instantly.",
         "imageSrc": "https://dl.dropboxusercontent.com/scl/fi/n1htgstee1ns76o65arw6/Screenshot-50.png?rlkey=523mvk6trdgvxfy1zjtnazehr&st=tmdrvls7&dl=0",
         "url": "https://node-flow-automation-tool.vercel.app/"
       },
