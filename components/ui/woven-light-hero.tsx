@@ -73,7 +73,7 @@ export const WovenLightHero = ({
       <div className="pointer-events-none absolute inset-0 z-[5] bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.6),transparent_65%)] dark:bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.55),transparent_65%)]" />
       <HeroNav brand={brand} />
       <div className="relative z-10 text-center px-4 w-full max-w-6xl mx-auto">
-        <h1 className="text-white dark:text-slate-900 text-[clamp(2.75rem,7vw,6rem)] leading-[1.05] text-balance font-bold" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, WebkitTextStroke: siteDark ? '1px rgba(15,23,42,0.9)' : '1px rgba(255,255,255,0.85)', paintOrder: 'stroke', textShadow: siteDark ? '0 2px 20px rgba(15,23,42,0.18)' : '0 2px 24px rgba(0,0,0,0.9), 0 0 70px rgba(0,0,0,0.75)' }}>
+        <h1 className="text-white dark:text-slate-900 text-[clamp(2.5rem,7vw,6rem)] leading-[1.05] text-balance font-bold" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700, WebkitTextStroke: siteDark ? '1px rgba(15,23,42,0.9)' : '1px rgba(255,255,255,0.85)', paintOrder: 'stroke', textShadow: siteDark ? '0 2px 20px rgba(15,23,42,0.18)' : '0 2px 24px rgba(0,0,0,0.9), 0 0 70px rgba(0,0,0,0.75)' }}>
             {wordChars.map((chars, i) => (
                 <span key={i} className="inline-block">
                     {chars.map(({ char, index }) => (
@@ -145,6 +145,13 @@ const WovenCanvas = () => {
   // Rebuild the particle scene when the site theme flips, so the dot
   // colors always match the hero background (black hero <-> white hero).
   const [themeTick, setThemeTick] = useState(0);
+  // Live scene handles — recolored in place on theme change so the
+  // toggle never pays for a full rebuild (keeps INP fast).
+  const sceneApi = useRef<{
+    geometry: THREE.BufferGeometry;
+    material: THREE.PointsMaterial;
+    particleCount: number;
+  } | null>(null);
 
   useEffect(() => {
     const el = document.documentElement;
@@ -233,6 +240,7 @@ const WovenCanvas = () => {
 
     const points = new THREE.Points(geometry, material);
     scene.add(points);
+    sceneApi.current = { geometry, material, particleCount };
 
     const handleMouseMove = (event: MouseEvent) => {
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -311,7 +319,32 @@ const WovenCanvas = () => {
         material.dispose();
         renderer.dispose();
         mount.removeChild(renderer.domElement);
+        sceneApi.current = null;
     };
+  }, []);
+
+  // Recolor dots in place when the theme flips — same motion, no
+  // teardown, no rotation jump, and no long task inside the click.
+  useEffect(() => {
+    if (themeTick === 0) return; // initial colors already set at build
+    const api = sceneApi.current;
+    if (!api) return;
+    const lightBg = document.documentElement.classList.contains('dark');
+    const attr = api.geometry.getAttribute('color') as THREE.BufferAttribute;
+    const color = new THREE.Color();
+    for (let i = 0; i < api.particleCount; i++) {
+      if (lightBg) {
+        // Near-black dots with slight variation for depth on white.
+        color.setHSL(Math.random(), 0.15, 0.04 + Math.random() * 0.08);
+      } else {
+        color.setHSL(Math.random(), 0.8, 0.7);
+      }
+      attr.setXYZ(i, color.r, color.g, color.b);
+    }
+    attr.needsUpdate = true;
+    api.material.blending = lightBg ? THREE.NormalBlending : THREE.AdditiveBlending;
+    api.material.opacity = lightBg ? 1.0 : 0.8;
+    api.material.needsUpdate = true;
   }, [themeTick]);
 
   return <div ref={mountRef} className="absolute inset-0 z-0" />;

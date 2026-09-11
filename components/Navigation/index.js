@@ -98,7 +98,7 @@ const Navigation = () => {
                 className={`px-3.5 py-1.5 rounded-full font-mono text-[11px] tracking-[0.14em] uppercase transition-all duration-300 ${
                   activeSection === item.id
                     ? 'bg-zinc-900 text-white shadow-md dark:bg-white dark:text-zinc-900'
-                    : 'text-zinc-500 hover:text-zinc-900 hover:bg-white/70 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-white/10'
+                    : 'text-zinc-700 hover:text-zinc-900 hover:bg-white/70 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-white/10'
                 }`}
               >
                 {item.label}
@@ -140,7 +140,7 @@ const Navigation = () => {
 
         {/* Mobile dropdown — glass sheet under the island */}
         {mobileMenuOpen && (
-          <nav className="md:hidden absolute top-[calc(100%+8px)] left-0 right-0 rounded-3xl border border-white/60 bg-white/85 backdrop-blur-2xl backdrop-saturate-150 shadow-[0_16px_48px_rgba(0,0,0,0.16)] p-2 space-y-1 dark:border-white/10 dark:bg-zinc-900/90">
+          <nav className="md:hidden absolute top-[calc(100%+8px)] left-0 right-0 rounded-3xl border border-white/60 bg-white/95 backdrop-blur-2xl backdrop-saturate-150 shadow-[0_16px_48px_rgba(0,0,0,0.16)] p-2 space-y-1 dark:border-white/10 dark:bg-zinc-900/90">
             {navItems.map((item) => (
               <button
                 key={item.id}
@@ -148,7 +148,7 @@ const Navigation = () => {
                 className={`block w-full text-left px-4 py-3 rounded-2xl font-mono text-xs tracking-[0.15em] uppercase transition-all duration-300 ${
                   activeSection === item.id
                     ? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-900'
-                    : 'text-zinc-600 hover:text-zinc-900 hover:bg-white/70 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-white/10'
+                    : 'text-zinc-700 hover:text-zinc-900 hover:bg-zinc-900/5 dark:text-zinc-400 dark:hover:text-white dark:hover:bg-white/10'
                 }`}
               >
                 {item.label}
