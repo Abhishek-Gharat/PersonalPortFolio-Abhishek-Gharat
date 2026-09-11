@@ -4,42 +4,37 @@ const Footer = ({ data }) => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-[#1a1a2e] py-8 px-4 sm:px-6 lg:px-8 overflow-x-hidden">
-      <div className="max-w-7xl mx-auto w-full">
+    <footer className="bg-white border-t border-zinc-200 py-8 px-4 sm:px-6 lg:px-8 dark:bg-dark-bg dark:border-zinc-800">
+      <div className="max-w-5xl mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
-          {/* Left: Logo & Copyright */}
-          <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4">
-            <div className="flex items-center gap-2">
-              <span className="font-condensed text-xl font-bold text-white">AG</span>
-              <span className="font-mono text-[10px] tracking-[0.2em] uppercase text-[#00ff88]">.NETWORK</span>
-            </div>
-            <span className="font-mono text-xs text-[#555570]">
+          <div className="flex items-center gap-3">
+            <span className="font-condensed text-xl font-bold text-zinc-900 dark:text-white">AG</span>
+            <span className="font-mono text-xs text-zinc-500 dark:text-zinc-400">
               © {currentYear} {data.name} {data.surname}
             </span>
           </div>
 
-          {/* Center: Quick Links */}
           <nav className="flex items-center gap-6">
             {[
               { href: '#hero', label: 'Top' },
-              { href: '#projects', label: 'Systems' },
-              { href: '#contact', label: 'Connect' },
+              { href: '#experience', label: 'Experience' },
+              { href: '#projects', label: 'Projects' },
+              { href: '#contact', label: 'Contact' },
             ].map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="font-mono text-xs tracking-[0.1em] uppercase text-[#8888aa] transition-colors duration-300 hover:text-white"
+                className="font-mono text-xs uppercase tracking-wider text-zinc-500 hover:text-zinc-900 transition-colors dark:text-zinc-400 dark:hover:text-white"
               >
                 {link.label}
               </a>
             ))}
           </nav>
 
-          {/* Right: Status */}
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 bg-[#00ff88] rounded-full animate-pulse" />
-            <span className="font-mono text-xs tracking-[0.1em] uppercase text-[#00ff88]">
-              All Systems Operational
+            <span className="w-2 h-2 bg-emerald-500 rounded-full" />
+            <span className="font-mono text-xs uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
+              Open to work
             </span>
           </div>
         </div>

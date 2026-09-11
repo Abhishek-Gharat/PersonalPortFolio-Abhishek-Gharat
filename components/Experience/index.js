@@ -1,235 +1,166 @@
-import React, { useRef, useEffect, useState } from 'react';
+"use client";
 
-// Process node for experience items
-const ProcessNode = ({ item, index, isLast, isVisible }) => {
-  const isEducation = item.institution !== undefined;
-  const [isHovered, setIsHovered] = useState(false);
+/**
+ * Experience section — airy bento-inspired layout.
+ * Same portfolio data, decluttered presentation:
+ * single-column work history + 2-col education, no typing terminal,
+ * no duplicate timeline, no 3D tilt.
+ */
 
-  const getNodeColor = (type) => {
-    return type === 'experience' ? '#00ff88' : '#7c3aed';
-  };
+import { ArrowUpRight, GraduationCap, MapPin } from "lucide-react";
+import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { cn } from "@/lib/utils";
 
-  const color = getNodeColor(isEducation ? 'education' : 'experience');
+const fadeInUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: "easeOut" },
+  },
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
+};
+
+const ExperienceCard = ({ item, index }) => {
+  const [expanded, setExpanded] = useState(false);
+  const achievements = item.achievements || [];
+  const visibleAchievements = expanded ? achievements : achievements.slice(0, 3);
+  const hasMore = achievements.length > 3;
 
   return (
-    <div
-      className={`relative transition-all duration-700 ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-      }`}
-      style={{ transitionDelay: `${index * 200}ms` }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+    <motion.article
+      variants={fadeInUp}
+      className={cn(
+        "group relative rounded-2xl border border-zinc-200 bg-white p-7 sm:p-8 dark:border-zinc-800 dark:bg-zinc-900",
+        "transition-shadow duration-300 hover:shadow-[0_12px_40px_rgb(0,0,0,0.07)] hover:border-zinc-300 dark:hover:border-zinc-700"
+      )}
     >
-      {/* Input connection */}
-      <div className="hidden lg:block absolute -top-8 left-8 w-px h-8 bg-gradient-to-b from-[#1a1a2e] to-[#252540]">
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-[#252540]" />
-      </div>
-
-      {/* Node container */}
-      <div
-        className="relative border transition-all duration-300"
-        style={{
-          borderColor: isHovered ? color : '#1a1a2e',
-          background: '#0a0a10',
-          borderLeft: isHovered ? `3px solid ${color}` : '1px solid #1a1a2e',
-        }}
-      >
-        {/* Header bar */}
-        <div 
-          className="px-4 py-2 border-b flex items-center justify-between"
-          style={{ borderColor: '#1a1a2e' }}
-        >
-          <div className="flex items-center gap-2">
-            <div 
-              className="w-2 h-2 rounded-full animate-pulse"
-              style={{ background: color }}
-            />
-            <span className="font-mono text-[10px] tracking-[0.15em] uppercase text-[#8888aa]">
-              {isEducation ? 'Education_Node' : 'Experience_Node'}
+      <div className="flex flex-col gap-6 md:flex-row md:gap-10">
+        {/* Left rail — role meta */}
+        <div className="md:w-64 md:shrink-0">
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-xs text-zinc-400">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <span className="h-px w-8 bg-emerald-500" />
+            <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full dark:text-emerald-300 dark:bg-emerald-500/10">
+              {item.type || "Full-time"}
             </span>
           </div>
-          <span className="font-mono text-[10px] text-[#555570] tracking-wider">
-            {item.duration}
-          </span>
+
+          <h3 className="mt-4 text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">
+            {item.position}
+          </h3>
+          <p className="mt-1 text-base font-medium text-zinc-800 dark:text-zinc-200">
+            {item.company}
+          </p>
+
+          <div className="mt-3 space-y-1.5">
+            <p className="font-mono text-xs text-zinc-500 dark:text-zinc-400">{item.duration}</p>
+            <p className="flex items-center gap-1.5 font-mono text-xs text-zinc-500 dark:text-zinc-400">
+              <MapPin className="h-3.5 w-3.5" />
+              {item.location}
+            </p>
+          </div>
         </div>
 
-        {/* Content */}
-        <div className="p-6">
-          <h3 className="font-condensed text-xl md:text-2xl font-bold uppercase mb-2 text-white">
-            {isEducation ? item.degree : item.position}
-          </h3>
-          <p 
-            className="font-condensed text-lg mb-3 transition-colors duration-300"
-            style={{ color: isHovered ? color : '#8888aa' }}
-          >
-            {isEducation ? item.institution : item.company}
-          </p>
-          <p className="text-[#8888aa] text-sm leading-relaxed mb-4">
+        {/* Right — details */}
+        <div className="min-w-0 flex-1 md:border-l md:border-zinc-100 md:pl-10 md:dark:border-zinc-800">
+          <p className="text-[15px] leading-7 text-zinc-600 dark:text-zinc-400">
             {item.description}
           </p>
 
-          {/* Location */}
-          <div className="flex items-center gap-2 mb-4 text-[#555570]">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-            </svg>
-            <span className="font-mono text-xs">{item.location}</span>
-          </div>
+          {visibleAchievements.length > 0 && (
+            <ul className="mt-5 space-y-2.5">
+              {visibleAchievements.map((a, i) => (
+                <li
+                  key={i}
+                  className="flex items-start gap-2.5 text-sm leading-6 text-zinc-700 dark:text-zinc-300"
+                >
+                  <span className="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-500" />
+                  <span>{a}</span>
+                </li>
+              ))}
+            </ul>
+          )}
 
-          {/* Achievements (experience only) */}
-          {!isEducation && item.achievements && (
-            <div className="mb-4 space-y-2">
-              <div className="font-mono text-[10px] uppercase tracking-wider text-[#555570] mb-2">
-                Output Data:
-              </div>
-              {item.achievements.map((achievement, i) => (
-                <div key={i} className="flex items-start gap-2 text-sm text-[#8888aa]">
-                  <span 
-                    className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0"
-                    style={{ background: color }}
-                  />
-                  <span>{achievement}</span>
-                </div>
+          {hasMore && (
+            <button
+              onClick={() => setExpanded((v) => !v)}
+              className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-emerald-700 hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300"
+              type="button"
+            >
+              {expanded ? "Show less" : `Show ${achievements.length - 3} more`}
+              <ArrowUpRight
+                className={cn(
+                  "h-4 w-4 transition-transform",
+                  expanded && "rotate-180"
+                )}
+              />
+            </button>
+          )}
+
+          {item.technologies && (
+            <div className="mt-6 flex flex-wrap gap-2 border-t border-zinc-100 pt-5 dark:border-zinc-800">
+              {item.technologies.map((tech) => (
+                <span
+                  key={tech}
+                  className="rounded-full bg-zinc-100 px-3 py-1 font-mono text-xs text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
+                >
+                  {tech}
+                </span>
               ))}
             </div>
           )}
-
-          {/* Technologies */}
-          {item.technologies && (
-            <div className="pt-4 border-t" style={{ borderColor: '#1a1a2e' }}>
-              <div className="font-mono text-[10px] uppercase tracking-wider text-[#555570] mb-2">
-                Dependencies:
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {item.technologies.map((tech) => (
-                  <span
-                    key={tech}
-                    className="font-mono text-[9px] border border-[#1a1a2e] px-2 py-1 text-[#8888aa] transition-all duration-300"
-                    style={{
-                      borderColor: isHovered ? color : '#1a1a2e',
-                      color: isHovered ? color : '#8888aa',
-                    }}
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
-
-        {/* Output handle */}
-        <div className="absolute -bottom-1 left-8 w-3 h-3 rounded-full bg-[#1a1a2e] border border-[#252540]" />
       </div>
-
-      {/* Output connection */}
-      {!isLast && (
-        <div className="hidden lg:block absolute -bottom-8 left-8 w-px h-8 bg-gradient-to-b from-[#252540] to-[#1a1a2e]">
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-[#1a1a2e]" />
-        </div>
-      )}
-    </div>
+    </motion.article>
   );
 };
 
-// Workflow diagram showing process flow
-const ExperienceWorkflow = ({ experience, education }) => {
-  // Combine and sort by date
-  const combined = [
-    ...experience.map(item => ({ ...item, type: 'experience' })),
-    ...education.map(item => ({ ...item, type: 'education' }))
-  ].sort((a, b) => {
-    const getYear = (duration) => {
-      const match = duration.match(/(\d{4})/g);
-      return match ? parseInt(match[match.length - 1]) : 0;
-    };
-    return getYear(b.duration) - getYear(a.duration);
-  });
-
-  return (
-    <div className="relative max-w-3xl mx-auto">
-      {/* Start node */}
-      <div className="flex justify-center mb-8">
-        <div className="border border-[#00ff88] bg-[#00ff88] px-6 py-3">
-          <span className="font-mono text-xs font-bold uppercase tracking-[0.15em] text-[#050508] flex items-center gap-2">
-            <span className="w-2 h-2 bg-[#050508] rounded-full animate-pulse" />
-            Career_Start
-          </span>
-        </div>
-      </div>
-
-      {/* Connection */}
-      <div className="hidden lg:flex justify-center mb-8">
-        <div className="w-px h-8 bg-gradient-to-b from-[#00ff88] to-[#1a1a2e]" />
-      </div>
-
-      {/* Process nodes */}
-      <div className="space-y-8">
-        {combined.map((item, index) => (
-          <div key={`${item.type}-${item.id}`} className="relative">
-            {/* Side connector line */}
-            <div className="hidden lg:block absolute left-0 top-8 bottom-0 w-16">
-              <svg width="100%" height="100%" className="overflow-visible">
-                <path
-                  d={`M 0 0 L 32 0`}
-                  stroke="#1a1a2e"
-                  strokeWidth="1"
-                  fill="none"
-                  markerEnd="url(#arrowhead)"
-                />
-                <defs>
-                  <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                    <polygon points="0 0, 10 3.5, 0 7" fill="#1a1a2e" />
-                  </marker>
-                </defs>
-              </svg>
-            </div>
-
-            {/* Node */}
-            <div className="lg:pl-16">
-              <ProcessNode
-                item={item}
-                index={index}
-                isLast={index === combined.length - 1}
-                isVisible={true}
-              />
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* End node */}
-      <div className="flex justify-center mt-12">
-        <div className="border border-[#7c3aed] bg-[#7c3aed] px-6 py-3">
-          <span className="font-mono text-xs font-bold uppercase tracking-[0.15em] text-white flex items-center gap-2">
-            <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
-            Present
-          </span>
-        </div>
-      </div>
+const EducationCard = ({ item }) => (
+  <motion.article
+    variants={fadeInUp}
+    className="rounded-2xl border border-zinc-200 bg-zinc-50/60 p-6 transition-shadow duration-300 hover:shadow-[0_12px_40px_rgb(0,0,0,0.06)] hover:border-zinc-300 sm:p-7 dark:border-zinc-800 dark:bg-zinc-900/60 dark:hover:border-zinc-700"
+  >
+    <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
+      <GraduationCap className="h-4 w-4" />
+      <span className="font-mono text-[11px] uppercase tracking-[0.15em]">
+        Education
+      </span>
     </div>
-  );
-};
+    <h3 className="mt-3 text-lg font-bold leading-snug text-zinc-900 dark:text-white">
+      {item.degree}
+    </h3>
+    <p className="mt-1 text-sm font-medium text-zinc-700 dark:text-zinc-300">{item.institution}</p>
+    <p className="mt-2 font-mono text-xs text-zinc-500 dark:text-zinc-400">{item.duration}</p>
+    <p className="mt-1 font-mono text-xs text-zinc-500 dark:text-zinc-400">{item.location}</p>
+    <p className="mt-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400">{item.description}</p>
+    {(item.cgpa || item.percentage) && (
+      <p className="mt-4 inline-block rounded-full bg-white border border-zinc-200 px-3 py-1 font-mono text-xs text-zinc-700 dark:bg-zinc-900 dark:border-zinc-700 dark:text-zinc-300">
+        {item.cgpa ? `CGPA: ${item.cgpa}` : `Score: ${item.percentage}`}
+      </p>
+    )}
+  </motion.article>
+);
 
-const Experience = ({ experience, education }) => {
+const Experience = ({ experience = [], education = [] }) => {
   const [revealed, setRevealed] = useState(false);
   const sectionRef = useRef(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setRevealed(true);
-        }
+        if (entry.isIntersecting) setRevealed(true);
       },
       { threshold: 0.1 }
     );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
+    if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
 
@@ -237,39 +168,59 @@ const Experience = ({ experience, education }) => {
     <section
       id="experience"
       ref={sectionRef}
-      className="relative min-h-screen py-20 px-4 sm:px-6 lg:px-8 overflow-x-hidden"
+      className="bg-white py-24 px-4 sm:px-6 lg:px-8 dark:bg-dark-bg"
     >
-      {/* Background process grid */}
-      <div 
-        className="absolute inset-0 pointer-events-none opacity-5"
-        style={{
-          backgroundImage: `
-            linear-gradient(#00ff88 1px, transparent 1px),
-            linear-gradient(90deg, #00ff88 1px, transparent 1px)
-          `,
-          backgroundSize: '40px 40px',
-        }}
-      />
-
-      <div className="max-w-4xl mx-auto relative">
-        {/* Section Header */}
-        <div 
-          className={`text-center mb-16 transition-all duration-700 ${revealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+      <div className="mx-auto max-w-4xl">
+        <div
+          className={`mb-14 transition-all duration-500 ${revealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
         >
-          <div className="section-eyebrow justify-center mx-auto">
-            <span>03</span>
-            <span>Process Flow</span>
+          <div className="font-mono text-xs uppercase tracking-[0.2em] text-emerald-700 mb-4 dark:text-emerald-400">
+            01 — Experience
           </div>
-          <h2 className="section-title">
-            Career<br />
-            <span className="text-[#00ff88]">Pipeline</span>
+          <h2 className="font-condensed text-5xl sm:text-6xl font-black uppercase tracking-tight text-zinc-900 dark:text-white">
+            Work History
           </h2>
+          <p className="mt-4 max-w-xl text-base leading-7 text-zinc-600 dark:text-zinc-400">
+            Production experience across startups and freelance — React,
+            Next.js, and API integration.
+          </p>
         </div>
 
-        {/* Workflow Visualization */}
-        <div className={`transition-all duration-700 delay-200 ${revealed ? 'opacity-100' : 'opacity-0'}`}>
-          <ExperienceWorkflow experience={experience} education={education} />
-        </div>
+        <motion.div
+          className="space-y-8"
+          initial="hidden"
+          variants={staggerContainer}
+          viewport={{ once: true, margin: "-80px" }}
+          whileInView="visible"
+        >
+          {experience?.map((item, i) => (
+            <ExperienceCard key={item.id} item={item} index={i} />
+          ))}
+        </motion.div>
+
+        {education?.length > 0 && (
+          <div className="mt-16">
+            <div className="mb-7 flex items-baseline justify-between">
+              <h3 className="text-sm font-bold uppercase tracking-[0.15em] text-zinc-900 dark:text-white">
+                Education
+              </h3>
+              <span className="font-mono text-xs text-zinc-400 dark:text-zinc-500">
+                {education.length} records
+              </span>
+            </div>
+            <motion.div
+              className="grid gap-6 md:grid-cols-2"
+              initial="hidden"
+              variants={staggerContainer}
+              viewport={{ once: true, margin: "-60px" }}
+              whileInView="visible"
+            >
+              {education.map((item) => (
+                <EducationCard key={item.id} item={item} />
+              ))}
+            </motion.div>
+          </div>
+        )}
       </div>
     </section>
   );

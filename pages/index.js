@@ -37,14 +37,14 @@ export default function Home() {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </Head>
 
-      <div className="min-h-screen bg-[#050508] text-[#e8e8f0] overflow-x-hidden w-full max-w-full">
+      <div className="min-h-screen bg-white text-zinc-900 overflow-x-hidden w-full max-w-full dark:bg-dark-bg dark:text-zinc-100">
         <Navigation />
         
         <main>
           <Hero data={data} />
-          <Skills skills={data.skills} />
-          <Projects projects={data.projects} />
           <Experience experience={data.experience} education={data.education} />
+          <Projects projects={data.projects} />
+          <Skills skills={data.skills} />
           <Contact data={data} />
         </main>
 

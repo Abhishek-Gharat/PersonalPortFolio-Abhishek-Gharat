@@ -42,6 +42,21 @@ module.exports = {
           surface: "#12121a",
           border: "#1e1e2e",
         },
+        // shadcn tokens (used by /components/ui primitives)
+        border: "hsl(var(--border))",
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
       },
       animation: {
         "fade-in": "fadeIn 0.5s ease-out",
