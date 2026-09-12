@@ -149,6 +149,7 @@
       "description": "Bachelor of Science in Information Technology."
     }
   ],
+  "testimonials": [],
   "projects": [
     {
       "id": "1",
@@ -165,6 +166,7 @@
     {
       "id": "2",
       "title": "AI-Powered Exam Management Platform",
+      "shortTitle": "Exam Platform",
       "description": "Full-stack examination and automation platform using React, Firebase Authentication, Telegram Bot API, and dashboard analytics to manage exams, students, and administrative workflows.",
       "longDescription": "Built a comprehensive exam management system with automated notifications, exam operations, user management, and performance tracking through AI-driven features.",
       "imageSrc": "/images/exam-platform.jpg",
